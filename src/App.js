@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-  const [cities, setcities] = useState({});
+  const [cities, setcities] = useState({"Dallas":{"latitude":32.78306,"longitude":-96.80667},"Houston":{"latitude":29.76328,"longitude":-95.36327},"Austin":{"latitude":30.26715,"longitude":-97.74306}});
   const [citySearch, setcitySearch] = useState("");
   const [temps, setTemps] = useState([]);
   const [times, setTimes] = useState([]);
-  const [selected, setselected] = useState("");
+  const [selected, setselected] = useState("Dallas");
+
+  useEffect(() => {
+    getData('Dallas')
+  },[]);
 
   const addCity = () => {
     fetch("https://geocoding-api.open-meteo.com/v1/search?name=" + citySearch)
@@ -21,7 +25,6 @@ function App() {
                 longitude: result.results[0].longitude,
               },
             });
-            console.log(cities);
           } else {
             alert("city not found");
           }
